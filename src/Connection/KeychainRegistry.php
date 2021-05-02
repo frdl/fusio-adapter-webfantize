@@ -47,36 +47,28 @@ class KeychainRegistry implements ConnectionInterface
      */
     public function getConnection(ParametersInterface $config) : Keychain
     {
-        /*
-$keychainFile = '/etc/project/config/keychain.dat';
-$passPhrasePath = '/etc/project/config/keychain.passphrase';
-$publicKeyPath = '/etc/project/config/keychain.pem';
 
-$privateKeyFile = __DIR__ . '/data/privkey.key';
- $_PRIVATEKEYPASSWORD__ 
-$passPhrase 
-
-*/
         
         $keychain = new Keychain;
         
         $params = [
             'keychain.datastorage.address' => $config->get('keychain.datastorage.address'),
-            'keychain.phrase.secret' => $config->get('keychain.phrase.secret'),
+      //      'keychain.phrase.secret' => $config->get('keychain.phrase.secret'),
             'keychain.phrase.address' => $config->get('keychain.phrase.address'),
             'keychain.pubkey.address' => $config->get('keychain.pubkey.address'),
-            'keychain.privkey.address' => $config->get('keychain.privkey.address'),
-            'keychain.privkey.secret' => is_string($config->get('keychain.privkey.secret')) || null,
+            'keychain.privkey.keyid' => $config->get('keychain.privkey.keyid'),
+        //   'keychain.privkey.secret' => is_string($config->get('keychain.privkey.secret')) || null,
         ];
 
-        $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
-        if (!$isCreated) {
-           $keychain->createPassphraseFile($params['keychain.phrase.secret'],
+          $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
+        
+          if (!$isCreated) {
+                         $keychain->createPassphraseFile($params['keychain.phrase.secret'],
                                            $params['keychain.phrase.address'],
                                             $params['keychain.privkey.address'], 
                                              $params['keychain.privkey.secret']);
-        }
-
+          }
+        
         
         $keychain->loadKeychain($params['keychain.datastorage.address'],
                                  $params['keychain.phrase.address'],
@@ -88,6 +80,38 @@ $passPhrase
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
     {
+                /*
+            'keychain.datastorage.address' => $config->get('keychain.datastorage.address'),
+            'keychain.phrase.secret' => $config->get('keychain.phrase.secret'),
+            'keychain.phrase.address' => $config->get('keychain.phrase.address'),
+            'keychain.pubkey.address' => $config->get('keychain.pubkey.address'),
+            'keychain.privkey.address' => $config->get('keychain.privkey.address'),
+            'keychain.privkey.secret' => is_string($config->get('keychain.privkey.secret')) || null,
+
+*/
+        
+        
+        
+         $builder->add($elementFactory->newInput('keychain.datastorage.address', 'KeychainFile', 'Where to store the registries data'));
+        
+         $builder->add($elementFactory->newInput('keychain.phrase.secret', 'Secret-Phrase', 'The registry storage access secret'));
+        
+         $builder->add($elementFactory->newInput('keychain.phrase.address', 'Phrase-File', 'Where to store the storage access secret'));
+         $builder->add($elementFactory->newInput('keychain.pubkey.address', 'PublicKey-File', 'Where to store the PublicKey'));
+    //     $builder->add($elementFactory->newInput('keychain.privkey.address', 'PrivateKey-File', 'Where to load the '));
+         $builder->add($elementFactory->newInput('keychain.privkey.keyid', 'Key-ID', 'Identifier of the private key'));
+     //   $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
+      //  if (!$isCreated) {
+          $builder->add($elementFactory->newInput('keychain.privkey.secret', 'Private-Key Password', 'The Password of the Private-Key'));
+        
+    $builder->add($elementFactory->newTextArea('PRIVATE_KEY', 'PRIVATE_KEY', 'text', 'The contents of the PRIVATE_KEY.'));    
+    $builder->add($elementFactory->newTextArea('PUBLIC_KEY', 'PUBLIC_KEY', 'text', 'The contents of the PUBLIC_KEY.'));  
+        
+        
+
+      //  }
+
+          
      //   $builder->add($elementFactory->newInput('projectId', 'Project-Id', 'The project ID from the Google Developers Console'));
        // $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
     }
