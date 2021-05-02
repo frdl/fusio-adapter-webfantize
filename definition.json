@@ -1,5 +1,6 @@
 {
   "connectionClass": [
-    "Fusio\\Adapter\\Gcp\\Connection\\Gcp"
+    "Fusio\\Adapter\\Webfantize\\Connection\\KeychainRegistry",  //Joomla Keychain Deployment/Generation,
+     "Fusio\\Adapter\\Webfantize\\Connection\\NextcloudApiWrapper",  //Joomla Keychain Deployment/Generation
   ]
 }
