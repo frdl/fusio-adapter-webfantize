@@ -1,11 +1,19 @@
 {
   "connectionClass": [
-     "Fusio\\Adapter\\Webfantize\\Connection\\KeychainJoomlaflowRegistry",  
+     "Fusio\\Adapter\\Webfantize\\Connection\\KeychainRegistry",  
      "Fusio\\Adapter\\Webfantize\\Connection\\NextcloudApiWrapper",  
      "Fusio\\Adapter\\Webfantize\\Connection\\SharedMemoryMutexRegistry",  
      "Fusio\\Adapter\\Webfantize\\Connection\\WfpuWebhostingProvisioningGateway",  
      "Fusio\\Adapter\\Webfantize\\Connection\\PleskApiClient",  
      "Fusio\\Adapter\\Webfantize\\Connection\\RemotestorageClient",  
      "Fusio\\Adapter\\Webfantize\\Connection\\WebDavClient",  
+     "Fusio\\Adapter\\Webfantize\\Connection\\OidplusWeidClient",  
+     "Fusio\\Adapter\\Webfantize\\Connection\\FrdlwebProxyNetworkController",  
+     "Fusio\\Adapter\\Webfantize\\Connection\\Tenant",  
+     "Fusio\\Adapter\\Webfantize\\Connection\\WebfanCircuitBreakerWrapper",    
+     "Fusio\\Adapter\\Webfantize\\Connection\\WorkspaceSession",    
+     "Fusio\\Adapter\\Webfantize\\Connection\\GithubApiClient",    
+     "Fusio\\Adapter\\Webfantize\\Connection\\RemotePsr4Autoloader",    
+     "Fusio\\Adapter\\Webfantize\\Connection\\MonkeyismDummy"  
   ]
 }
