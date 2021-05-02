@@ -1,32 +1,33 @@
 {
-  "name": "fusio/adapter-gcp",
-  "description": "Provides connection to the google cloud platform",
-  "homepage": "http://fusio-project.org",
+  "name": "frdl/fusio-adapter-webfantize",
+  "description": "Provides connection to the webfantize adapters...",
+  "homepage": "http://apps.api.frdl.de",
   "keywords": ["fusio-adapter"],
   "license": "AGPL-3.0",
   "authors": [
     {
-      "name": "Christoph Kappestein",
-      "email": "christoph.kappestein@gmail.com",
-      "homepage": "http://christoph.kappestein.com"
+      "name": "Till Wehowski",
+      "email": "software@frdl.de",
+      "homepage": "https://frdl.de"
     }
   ],
   "require": {
     "php": ">=7.2",
     "fusio/engine": "^4.0",
-    "google/cloud": "^0.88.0"
+    "joomla/keychain": "~1.0",
+		"frdl/remote-psr4" : "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.0"
+  
   },
   "autoload": {
     "psr-4": {
-      "Fusio\\Adapter\\Gcp\\": "src/"
+      "Fusio\\Adapter\\Webfantize\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Fusio\\Adapter\\Gcp\\Tests\\": "tests/"
+   
     }
   }
 }
