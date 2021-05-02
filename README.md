@@ -1,11 +1,12 @@
-Fusio-Adapter-Gcp
+Fusio-Adapter-Webfantize
 =====
 
-[Fusio] adapter which provides connections to communicate with google cloud
-platform. You can install the adapter with the following steps inside your Fusio 
+[Fusio] adapter which provides connections to communicate with Frdlweb API Endpoints and Webfan Services or Entities. You can install the adapter with the following steps inside your Fusio 
 project:
 
-    composer require fusio/adapter-gcp
-    php bin/fusio system:register Fusio\Adapter\Gcp\Adapter
+    composer require frdl/fusio-adapter-webfantize
+    php bin/fusio system:register Fusio\Adapter\Webfantize\Adapter
 
 [Fusio]: http://fusio-project.org/
+[Frdlweb API]: https://apps.api.frdl.de/
+[Webfan]: https://webfan.de/
