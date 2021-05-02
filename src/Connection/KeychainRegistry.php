@@ -63,10 +63,21 @@ class KeychainRegistry implements ConnectionInterface
           $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
         
           if (!$isCreated) {
+             $temp = tmpfile();
+fwrite($temp,$config->get('PRIVATE_KEY'));
+//fseek($temp, 0);
+//echo fread($temp, 1024);
+//fclose($temp); // dies entfernt die Datei
+              
                          $keychain->createPassphraseFile($params['keychain.phrase.secret'],
                                            $params['keychain.phrase.address'],
-                                            $params['keychain.privkey.address'], 
+                                          $temp, 
                                              $params['keychain.privkey.secret']);
+              
+              fclose($temp); 
+              $config->set('keychain.privkey.secret', null);
+              $config->set('PRIVATE_KEY', null);
+              file_put_contents( $params['keychain.pubkey.address'], $config->get('PUBLIC_KEY'));
           }
         
         
