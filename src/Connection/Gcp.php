@@ -19,13 +19,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Fusio\Adapter\Gcp\Connection;
+namespace Fusio\Adapter\Webfantize\Connection;
 
 use Fusio\Engine\ConnectionInterface;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
-use Google\Cloud\Core\ServiceBuilder;
+use Joomla\Keychain\Keychain;
 
 /**
  * Gcp
@@ -34,34 +34,61 @@ use Google\Cloud\Core\ServiceBuilder;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class Gcp implements ConnectionInterface
+class KeychainRegistry implements ConnectionInterface
 {
     public function getName()
     {
-        return 'Gcp';
+        return 'KeychainRegistry';
     }
 
     /**
      * @param \Fusio\Engine\ParametersInterface $config
-     * @return \Google\Cloud\Core\ServiceBuilder
+     * @return \Joomla\Keychain\Keychain
      */
-    public function getConnection(ParametersInterface $config)
+    public function getConnection(ParametersInterface $config) : Keychain
     {
+        /*
+$keychainFile = '/etc/project/config/keychain.dat';
+$passPhrasePath = '/etc/project/config/keychain.passphrase';
+$publicKeyPath = '/etc/project/config/keychain.pem';
+
+$privateKeyFile = __DIR__ . '/data/privkey.key';
+ $_PRIVATEKEYPASSWORD__ 
+$passPhrase 
+
+*/
+        
+        $keychain = new Keychain;
+        
         $params = [
-            'projectId' => $config->get('projectId'),
+            'keychain.datastorage.address' => $config->get('keychain.datastorage.address'),
+            'keychain.phrase.secret' => $config->get('keychain.phrase.secret'),
+            'keychain.phrase.address' => $config->get('keychain.phrase.address'),
+            'keychain.pubkey.address' => $config->get('keychain.pubkey.address'),
+            'keychain.privkey.address' => $config->get('keychain.privkey.address'),
+            'keychain.privkey.secret' => is_string($config->get('keychain.privkey.secret')) || null,
         ];
 
-        $keyFile = $config->get('keyFile');
-        if (!empty($keyFile)) {
-            $params['keyFile'] = json_decode($keyFile, true);
+        $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
+        if (!$isCreated) {
+           $keychain->createPassphraseFile($params['keychain.phrase.secret'],
+                                           $params['keychain.phrase.address'],
+                                            $params['keychain.privkey.address'], 
+                                             $params['keychain.privkey.secret']);
         }
 
-        return new ServiceBuilder($params);
+        
+        $keychain->loadKeychain($params['keychain.datastorage.address'],
+                                 $params['keychain.phrase.address'],
+                                 $params['keychain.pubkey.address']);
+        
+        
+        return $keychain;
     }
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
     {
-        $builder->add($elementFactory->newInput('projectId', 'Project-Id', 'The project ID from the Google Developers Console'));
-        $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
+     //   $builder->add($elementFactory->newInput('projectId', 'Project-Id', 'The project ID from the Google Developers Console'));
+       // $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
     }
 }
