@@ -26,7 +26,7 @@ use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Joomla\Keychain\Keychain;
-
+use Fusio\Engine\Model\Connection;
 /**
  * Gcp
  *
@@ -34,7 +34,7 @@ use Joomla\Keychain\Keychain;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class KeychainRegistry implements ConnectionInterface
+class KeychainRegistry extends Connection implements ConnectionInterface
 {
     public function getName()
     {
@@ -127,3 +127,4 @@ fwrite($temp,$config->get('PRIVATE_KEY'));
        // $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
     }
 }
+
