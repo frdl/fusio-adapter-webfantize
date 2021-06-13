@@ -148,7 +148,8 @@ class PleskApiClient extends Connection implements ConnectionInterface
    
           $builder->add($elementFactory->newConnection('KeychainRegistry',
 												  \Fusio\Adapter\Webfantize\Connection\KeychainRegistry::class, 
-												  'The Keychain used to store PleskApiClient credentials'));
+												  'The Keychain used to store PleskApiClient credentials',
+													 null));
    
     }
 }
