@@ -27,6 +27,8 @@ use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+
 
 class PleskApiClient extends Connection implements ConnectionInterface
 {
@@ -50,7 +52,14 @@ class PleskApiClient extends Connection implements ConnectionInterface
 		return strtolower($this->getName()).'.'.$this->getId().'.'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-
+    public function getKeychainRegistry():KeychainRegistry
+	{
+		return $this->KeychainRegistry;
+	}
+	
+    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+	  $this->KeychainRegistry = $KeychainRegistry;
+	}
     /**
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \PleskX\Api\Client
@@ -58,7 +67,7 @@ class PleskApiClient extends Connection implements ConnectionInterface
     public function getConnection(ParametersInterface $configuration) : \PleskX\Api\Client
     { 
       //  $this->configuration=$configuration;
-        $this->KeychainRegistry = $this->connector->getConnection($configuration->get('KeychainRegistry'));
+        $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
 		         
 		
 		$passwordKey = $this->getRegKey( 'plesk.client.','.password', $configuration);
