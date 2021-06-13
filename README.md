@@ -11,7 +11,7 @@ project:
 [Frdlweb API]: https://apps.api.frdl.de/
 [Webfan]: https://webfan.de/
 
-## Adapters:
+## Connections:
 - KeychainRegistry
 - PleskApiClient
 - Database (Medoo/kdbv)
