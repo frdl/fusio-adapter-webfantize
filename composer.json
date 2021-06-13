@@ -15,7 +15,11 @@
     "php": ">=7.2",
     "fusio/engine": "^4.0",
     "joomla/keychain": "~1.0",
-		"frdl/remote-psr4" : "*"
+    "frdl/remote-psr4" : "*",
+    "catfan/medoo":"^2.1.0",
+    "ganeshkandu/kdbv": "^1.0.7",
+    "caseyamcl/configula" : "^4.0.1",
+    "plesk/api-php-lib" :"^1.0.7"
   },
   "require-dev": {
   
