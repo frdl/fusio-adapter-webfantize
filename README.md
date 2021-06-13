@@ -10,3 +10,8 @@ project:
 [Fusio]: http://fusio-project.org/
 [Frdlweb API]: https://apps.api.frdl.de/
 [Webfan]: https://webfan.de/
+
+## Adapters:
+- KeychainRegistry
+- PleskApiClient
+- Database (Medoo/kdbv)
