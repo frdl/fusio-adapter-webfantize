@@ -105,9 +105,13 @@ class Database extends Connection implements ConnectionInterface
 												  'Prefix', 'text', 'The prefix of the tables'));
 		
    
+
           $builder->add($elementFactory->newConnection('KeychainRegistry',
 												  \Fusio\Adapter\Webfantize\Connection\KeychainRegistry::class, 
-												  'The Keychain used to store database credentials'));
+												  'The Keychain used to store database credentials',
+												//	  array_keys($this->connector->getAll())
+													  null
+													  ));
    
     }
 }
