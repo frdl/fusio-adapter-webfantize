@@ -20,7 +20,8 @@
     "ganeshkandu/kdbv": "^1.0.7",
     "caseyamcl/configula" : "^4.0.1",
     "plesk/api-php-lib" :"^1.0.7",
-     "sysmoh/nextcloud-api-wrapper" : "^0.1.1"
+     "sysmoh/nextcloud-api-wrapper" : "^0.1.1",
+     "webfan3/php-easy-breaker":"*"
   },
   "require-dev": {
   
