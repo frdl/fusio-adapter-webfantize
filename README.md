@@ -17,3 +17,4 @@ project:
 - Database (Medoo/kdbv)
 - FilesystemCache
 - NextcloudApiWrapper
+- CircuitBreakerProtectedConnectionWrapper
