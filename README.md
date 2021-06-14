@@ -15,3 +15,5 @@ project:
 - KeychainRegistry
 - PleskApiClient
 - Database (Medoo/kdbv)
+- FilesystemCache
+- NextcloudApiWrapper
