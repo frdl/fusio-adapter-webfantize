@@ -81,7 +81,7 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
     protected $wrapper;
 	protected $KeychainRegistry;
 	
-    protected function __construct(\NextcloudApiWrapper\Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
+    protected function __construct(Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
 	  $this->wrapper=$NextcloudApiWrapper;
 	  $this->setKeychainRegistry($KeychainRegistry);
 	}
@@ -149,7 +149,7 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Fusio\Adapter\Webfantize\Connection\NextcloudApiWrapper
      */
-    public function getConnection(ParametersInterface $configuration) : NextcloudApiWrapper
+    public function getConnection(ParametersInterface $configuration) : Wrapper
     { 
       //  $this->configuration=$configuration;
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
