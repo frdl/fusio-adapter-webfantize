@@ -29,59 +29,16 @@ use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
 use NextcloudApiWrapper\Wrapper;
-/*
 
-
-//The base path to Nextcloud api entry point, dont forget the last '/'
-$basePath   = 'http://my.domain.com/nextcloud/ocs/';
-$username   = 'admin';
-$password   = 'potatoes';
-
-$wrapper    = Wrapper::build($basePath, $username, $password);
-
-// https://docs.nextcloud.com/server/12/admin_manual/configuration_user/user_provisioning_api.html
-$userClient                 = $wrapper->getUsersClient();
-$groupsClient               = $wrapper->getGroupsClient();
-$appsClient                 = $wrapper->getAppsClient();
-
-// https://docs.nextcloud.com/server/12/developer_manual/core/ocs-share-api.html
-$sharesClient               = $wrapper->getSharesClient();
-$federatedCloudSharesClient = $wrapper->getFederatedCloudSharesClient();
-
-//Instance of \NextcloudApiWrapper\NextcloudResponse
-$response   = $userClient->getUsers();
-$code       = $response->getStatusCode();   //status code
-$users      = $response->getData();         //data as array
-$message    = $response->getStatus();       //status message
-$guzzle     = $response->getRawResponse();  //Guzzle response
-Making your own requests
-If you'd like to perform your own requests, you can use the underlying nextcloud connection class to perform them.
-
-$connection = new \NextcloudApiWrapper\Connection($basePath, $username, $password);
-
-//To perform simple requests
-$response   = $connection->request('GET', 'cloud/users');
-
-//To perform requests which needs the 'application/x-www-form-urlencoded' header
-//and are not performed in POST
-$response   = $connection->pushDataRequest('PUT', 'cloud/' . $username . '/disable');
-
-//To perform requests which holds some values to submit
-$response   = $connection->submitRequest('POST', 'cloud/users', [
-    'userid'    => 'potatoes',
-    'password'  => 'tortilla'
-]);
-
-
-*/
-class NextcloudApiWrapper extends Connection implements ConnectionInterface
+class NextcloudApiWrapper //extends Connection
+	implements ConnectionInterface
 {
-
+/*
    // protected $connection;
     protected $wrapper;
 	protected $KeychainRegistry;
 	
-    protected function __construct(Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
+    public function __construct(Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
 	  $this->wrapper=$NextcloudApiWrapper;
 	  $this->setKeychainRegistry($KeychainRegistry);
 	}
@@ -119,7 +76,18 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
     }	
 	
 	
-    public function getName()
+ 
+    public function getWrapper()
+	{
+		return $this->wrapper;
+	}	
+	*/
+    public function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+	  $this->KeychainRegistry = $KeychainRegistry;
+	}
+	
+	 
+	public function getName()
     {
         return 'NextcloudApiWrapper';
     }
@@ -138,16 +106,9 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
 	{
 		return $this->KeychainRegistry;
 	}
-    public function getWrapper():Wrapper
-	{
-		return $this->wrapper;
-	}	
-    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
-	  $this->KeychainRegistry = $KeychainRegistry;
-	}
     /**
      * @param \Fusio\Engine\ParametersInterface $config
-     * @return \Fusio\Adapter\Webfantize\Connection\NextcloudApiWrapper
+     * @return \NextcloudApiWrapper\Wrapper
      */
     public function getConnection(ParametersInterface $configuration) 
     { 
@@ -174,8 +135,8 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
 									 $configuration->get('nextcloud.client.username'), 
 									 $password);
 		
-		
-	    return new self($wrapper, $this->getKeychainRegistry());
+		return $wrapper;
+	  ///  return new self($wrapper, $this->getKeychainRegistry());
     }
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
