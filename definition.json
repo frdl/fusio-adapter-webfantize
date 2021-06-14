@@ -3,6 +3,7 @@
      "Fusio\\Adapter\\Webfantize\\Connection\\KeychainRegistry",
      "Fusio\\Adapter\\Webfantize\\Connection\\PleskApiClient",
      "Fusio\\Adapter\\Webfantize\\Connection\\Database",
-     "Fusio\\Adapter\\Webfantize\\Connection\\FilesystemCache"
+     "Fusio\\Adapter\\Webfantize\\Connection\\FilesystemCache",
+     "Fusio\\Adapter\\Webfantize\\Connection\\NextcloudApiWrapper"
   ]
 }
