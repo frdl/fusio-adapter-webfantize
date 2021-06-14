@@ -149,7 +149,7 @@ class NextcloudApiWrapper extends Connection implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Fusio\Adapter\Webfantize\Connection\NextcloudApiWrapper
      */
-    public function getConnection(ParametersInterface $configuration) : Wrapper
+    public function getConnection(ParametersInterface $configuration) 
     { 
       //  $this->configuration=$configuration;
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
