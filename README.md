@@ -18,3 +18,4 @@ project:
 - FilesystemCache
 - NextcloudApiWrapper
 - CircuitBreakerProtectedConnectionWrapper
+- TemporaryDirectory
