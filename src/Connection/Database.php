@@ -30,13 +30,20 @@ use kanduganesh\kdbv;
 use Fusio\Adapter\Webfantize\Connection\DatabaseConnectionWrapper as ConnectionWrapper;
 use Fusio\Engine\Model\Connection;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Fusio\Engine\ConnectorInterface;
+use Joomla\Keychain\Keychain;
+
 
 class Database extends Connection implements ConnectionInterface
 {
 
 	protected $KeychainRegistry;
     protected $Wrapper;
-
+	protected $connector;
+	public function __construct(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
 	
     public function getName()
     {
@@ -51,14 +58,14 @@ class Database extends Connection implements ConnectionInterface
 			 'port' => $configuration->get('db.master.port'),	
 		 ];
 		ksort($hash);
-		return strtolower($this->getName()).'.'.$this->getId().'.'.$prefix.sha1(json_encode($hash)).$suffix;
+		return strtolower($this->getName()).'.000.'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
-    public function getKeychainRegistry():KeychainRegistry
+    public function getKeychainRegistry():Keychain
 	{
 		return $this->KeychainRegistry;
 	}
 	
-    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+    protected function setKeychainRegistry(Keychain $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 
@@ -67,9 +74,9 @@ class Database extends Connection implements ConnectionInterface
  
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
 		$this->Wrapper = new ConnectionWrapper($this, $configuration);
-		$handler=  $this->configuration->get('db.default.handler');
-        $connection = $this->Wrapper->{$handler};
-		return $connection;
+		//$handler=  $configuration->get('db.default.handler');
+       // $connection = $this->Wrapper->{$handler};
+		return $this->Wrapper;
     }
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)

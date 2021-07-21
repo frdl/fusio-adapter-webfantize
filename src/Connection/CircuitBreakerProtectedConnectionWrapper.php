@@ -33,11 +33,17 @@ use Eljam\CircuitBreaker\Event\CircuitEvents;
 use Symfony\Component\EventDispatcher\Event;
 
 use Fusio\Adapter\Webfantize\Connection\CircuitBreakerConnection;
+use Fusio\Engine\ConnectorInterface;
 
-
-class CircuitBreakerProtectedConnectionWrapper extends Connection implements ConnectionInterface
+class CircuitBreakerProtectedConnectionWrapper 
+//	extends Connection 
+	implements ConnectionInterface
 {
-
+	protected $connector;
+	public function __construct(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
  
     public function getName()
     {
@@ -50,7 +56,7 @@ class CircuitBreakerProtectedConnectionWrapper extends Connection implements Con
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Fusio\Adapter\Webfantize\Connection\CircuitBreakerConnection
      */
-    public function getConnection(ParametersInterface $configuration) : CircuitBreakerConnection
+    public function getConnection(ParametersInterface $configuration) 
     { 
 		$FilesystemCache = $this->connector->getConnection($configuration->get('FilesystemCache'));
 		$Connection = $this->connector->getConnection($configuration->get('connection'));
@@ -79,7 +85,7 @@ class CircuitBreakerProtectedConnectionWrapper extends Connection implements Con
 
 
           $builder->add($elementFactory->newConnection('connection',
-												  ConnectionInterface::class, 
+												  \Fusio\Engine\Model\Connection::class, 
 												  'The connection to wrap into the circuit-breaker',
 													 null));
    

@@ -28,15 +28,19 @@ use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
-
+use Fusio\Engine\ConnectorInterface;
+use Joomla\Keychain\Keychain;
 
 class PleskApiClient extends Connection implements ConnectionInterface
 {
 
-   // protected $connection;
-//    protected $configuration;
+    protected $connector;
 	protected $KeychainRegistry;
-	
+		
+	public function __construct(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
     public function getName()
     {
         return 'PleskApiClient';
@@ -49,15 +53,15 @@ class PleskApiClient extends Connection implements ConnectionInterface
 	
 		 ];
 		ksort($hash);
-		return strtolower($this->getName()).'.'.$this->getId().'.'.$prefix.sha1(json_encode($hash)).$suffix;
+		return strtolower($this->getName()).'.000'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-    public function getKeychainRegistry():KeychainRegistry
+    public function getKeychainRegistry():Keychain
 	{
 		return $this->KeychainRegistry;
 	}
 	
-    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+    protected function setKeychainRegistry(Keychain $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
     /**
@@ -77,7 +81,7 @@ class PleskApiClient extends Connection implements ConnectionInterface
 			 $this->KeychainRegistry->set($passwordKey, $password_config);
 			 $configuration->set('plesk.client.password', null);
 		     $password=$password_config;
-		 }elseif($this->KeychainRegistry->has($passwordKey) ){
+		 }elseif($this->KeychainRegistry->exists($passwordKey) ){
 		     $password=$this->KeychainRegistry->get($passwordKey);
 		 }else{
 			$password=null; 
@@ -93,7 +97,7 @@ class PleskApiClient extends Connection implements ConnectionInterface
 			 $this->KeychainRegistry->set($secretkeyKey, $secretkey_config);
 			 $configuration->set('plesk.client.secretkey', null);
 			  $secretkey=$secretkey_config;
-		 }elseif($this->KeychainRegistry->has($secretkeyKey) ){
+		 }elseif($this->KeychainRegistry->exists($secretkeyKey) ){
 		     $secretkey=$this->KeychainRegistry->get($secretkeyKey);
 		 }else{
 			$secretkey=null; 

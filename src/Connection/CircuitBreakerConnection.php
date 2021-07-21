@@ -50,10 +50,10 @@ class CircuitBreakerConnection
 		$Connection = $this->Connection;
 		$Breaker = $this->Breaker;
 		
-        $result = $Breaker->protect(function () use(&$Connection, &$Breaker, $method, $params) {
+        $result = $Breaker->protect(function () use($Connection, $Breaker, $method, $params) {
                   // throw new \Exception("An error as occured");
                     // return 'ok';
-			 return call_user_func_array([$Connection, $method], $params);
+			 return call_user_func_array([$Connection->getConnection(), $method], $params);
         });	
 		
 		return $result;

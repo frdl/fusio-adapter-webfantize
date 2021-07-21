@@ -28,16 +28,28 @@ use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Joomla\Keychain\Keychain;
 use NextcloudApiWrapper\Wrapper;
-
+use Doctrine\DBAL;
+use Fusio\Engine\ConnectorInterface;
 class NextcloudApiWrapper //extends Connection
 	implements ConnectionInterface
 {
+		protected $connector;
 /*
    // protected $connection;
     protected $wrapper;
 	protected $KeychainRegistry;
-	
+	public function __construct(ConnectorInterface $connector, Plan\Invoice $invoiceService, ProviderFactory $providerFactory, Config $config, Table\Plan\Invoice $invoiceTable, Table\Transaction $transactionTable, EventDispatcherInterface $eventDispatcher)
+    {
+        $this->connector = $connector;
+        $this->invoiceService = $invoiceService;
+        $this->providerFactory = $providerFactory;
+        $this->config = $config;
+        $this->invoiceTable = $invoiceTable;
+        $this->transactionTable = $transactionTable;
+        $this->eventDispatcher = $eventDispatcher;
+    }
     public function __construct(Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
 	  $this->wrapper=$NextcloudApiWrapper;
 	  $this->setKeychainRegistry($KeychainRegistry);
@@ -82,7 +94,7 @@ class NextcloudApiWrapper //extends Connection
 		return $this->wrapper;
 	}	
 	*/
-    public function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+    public function setKeychainRegistry(Keychain $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 	
@@ -99,13 +111,21 @@ class NextcloudApiWrapper //extends Connection
 	
 		 ];
 		ksort($hash);
-		return strtolower($this->getName()).'.'.$this->getId().'.'.$prefix.sha1(json_encode($hash)).$suffix;
+		return strtolower($this->getName()).'.000.'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-    public function getKeychainRegistry():KeychainRegistry
+    public function getKeychainRegistry(): Keychain
 	{
 		return $this->KeychainRegistry;
 	}
+	
+	
+	public function __construct(ConnectorInterface $connector)
+    {
+        $this->connector = $connector;
+    }
+	
+	
     /**
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \NextcloudApiWrapper\Wrapper
@@ -123,7 +143,7 @@ class NextcloudApiWrapper //extends Connection
 			 $this->getKeychainRegistry()->set($passwordKey, $password_config);
 			 $configuration->set('nextcloud.client', null);
 		     $password=$password_config;
-		 }elseif($this->getKeychainRegistry()->has($passwordKey) ){
+		 }elseif($this->getKeychainRegistry()->exists($passwordKey) ){
 		     $password=$this->getKeychainRegistry()->get($passwordKey);
 		 }else{
 			$password=null; 

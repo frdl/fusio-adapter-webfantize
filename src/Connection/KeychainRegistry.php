@@ -52,38 +52,77 @@ class KeychainRegistry extends Connection implements ConnectionInterface
         $keychain = new Keychain;
         
         $params = [
-            'keychain.datastorage.address' => $config->get('keychain.datastorage.address'),
-      //      'keychain.phrase.secret' => $config->get('keychain.phrase.secret'),
-            'keychain.phrase.address' => $config->get('keychain.phrase.address'),
-            'keychain.pubkey.address' => $config->get('keychain.pubkey.address'),
-            'keychain.privkey.keyid' => $config->get('keychain.privkey.keyid'),
+            'datastorage_address' => $config->get('datastorage_address'),
+            'phrase_secret' => $config->get('phrase_secret'),
+            'phrase_address' => $config->get('phrase_address'),
+            'pubkey_address' => $config->get('pubkey_address'),
+			'key_secret'=> $config->get('key_secret'),
+            'keyid' => $config->get('keyid'),
         //   'keychain.privkey.secret' => is_string($config->get('keychain.privkey.secret')) || null,
         ];
 
-          $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
+          $isCreated = false !== file_get_contents($params['datastorage_address']);
         
-          if (!$isCreated) {
+                if(!$isCreated && empty($config->get('PUBLIC_KEY')) && file_exists($params['keychain.pubkey.address']) ){
+					 $config->set('PUBLIC_KEY', file_get_contents($params['datastorage_address']) );
+				}
+		
+       
+			  
+		       if (!file_exists($params['pubkey_address'])  || !empty($config->get('PRIVATE_KEY')) ){
+                     // touch($params['keychain.pubkey.address']);
+				//$privateKeyFile = __DIR__ . '/data/privkey.key';
+		         //$publicKeyFile = __DIR__ . '/data/pubkey.pem';
+                         if( empty($config->get('key_secret')) ) {
+							 $config->set('key_secret', \sha1(\mt_rand(1,99999).\microtime())  );
+						 }
+
+                           $keys = \frdl\pki\KeyCreator::generate([
+                                'private_key_bits' => 1024,
+                           ], $config->get('key_secret') );
+
+                   //file_put_contents($privateKeyFile, $keys['privkey']);
+				    $tmp = tmpfile();
+				    fwrite($tmp,$keys['privkey'] );
+				    fseek($tmp, 0);
+				     $config->set('PRIVATE_KEY', fread($tmp, strlen($keys['privkey']) ) );
+				     fclose($tmp);
+                     file_put_contents($params['pubkey_address'], $keys['pubkey'] );
+				     $config->set('PUBLIC_KEY', file_get_contents($params['pubkey_address']) );
+		         }
+					  
+			  
+		   if (!$isCreated || !empty($config->get('PRIVATE_KEY')) ) {	  
              $temp = tmpfile();
-fwrite($temp,$config->get('PRIVATE_KEY'));
+             fwrite($temp,$config->get('PRIVATE_KEY'));
 //fseek($temp, 0);
 //echo fread($temp, 1024);
 //fclose($temp); // dies entfernt die Datei
-              
-                         $keychain->createPassphraseFile($params['keychain.phrase.secret'],
-                                           $params['keychain.phrase.address'],
-                                          $temp, 
-                                             $params['keychain.privkey.secret']);
+              $privkeypath = stream_get_meta_data($temp)['uri'];
+			   
+                         $keychain->createPassphraseFile($params['phrase_secret'],
+                                           $params['phrase_address'],
+                                           $privkeypath, 
+                                              $config->get('key_secret')  );
               
               fclose($temp); 
-              $config->set('keychain.privkey.secret', null);
+              $config->set('key_secret', null);
               $config->set('PRIVATE_KEY', null);
-              file_put_contents( $params['keychain.pubkey.address'], $config->get('PUBLIC_KEY'));
+			    if (!file_exists($params['pubkey_address']) ){
+                  file_put_contents( $params['pubkey_address'], $config->get('PUBLIC_KEY'));
+				}
+			   
+	//		  print_r([$params, $config->get('PUBLIC_KEY'), $config->get('PRIVATE_KEY'), $config]); 
+			   
+			  $keychain->saveKeychain($params['datastorage_address'], 
+									  $params['phrase_address'],
+									  $params['pubkey_address']);
           }
         
         
-        $keychain->loadKeychain($params['keychain.datastorage.address'],
-                                 $params['keychain.phrase.address'],
-                                 $params['keychain.pubkey.address']);
+        $keychain->loadKeychain($params['datastorage_address'],
+                                 $params['phrase_address'],
+                                 $params['pubkey_address']);
         
         
         return $keychain;
@@ -103,17 +142,17 @@ fwrite($temp,$config->get('PRIVATE_KEY'));
         
         
         
-         $builder->add($elementFactory->newInput('keychain.datastorage.address', 'KeychainFile', 'Where to store the registries data'));
+         $builder->add($elementFactory->newInput('datastorage_address', 'KeychainFile', 'Where to store the registries data'));
         
-         $builder->add($elementFactory->newInput('keychain.phrase.secret', 'Secret-Phrase', 'The registry storage access secret'));
+         $builder->add($elementFactory->newInput('phrase_secret', 'Secret-Phrase', 'The registry storage access secret'));
         
-         $builder->add($elementFactory->newInput('keychain.phrase.address', 'Phrase-File', 'Where to store the storage access secret'));
-         $builder->add($elementFactory->newInput('keychain.pubkey.address', 'PublicKey-File', 'Where to store the PublicKey'));
+         $builder->add($elementFactory->newInput('phrase_address', 'Phrase-File', 'Where to store the storage access secret'));
+         $builder->add($elementFactory->newInput('pubkey_address', 'PublicKey-File', 'Where to store the PublicKey'));
     //     $builder->add($elementFactory->newInput('keychain.privkey.address', 'PrivateKey-File', 'Where to load the '));
-         $builder->add($elementFactory->newInput('keychain.privkey.keyid', 'Key-ID', 'Identifier of the private key'));
+         $builder->add($elementFactory->newInput('keyid', 'Key-ID', 'Identifier of the private key'));
      //   $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
       //  if (!$isCreated) {
-          $builder->add($elementFactory->newInput('keychain.privkey.secret', 'Private-Key Password', 'The Password of the Private-Key'));
+          $builder->add($elementFactory->newInput('key_secret', 'Private-Key Password', 'The Password of the Private-Key'));
         
     $builder->add($elementFactory->newTextArea('PRIVATE_KEY', 'PRIVATE_KEY', 'text', 'The contents of the PRIVATE_KEY.'));    
     $builder->add($elementFactory->newTextArea('PUBLIC_KEY', 'PUBLIC_KEY', 'text', 'The contents of the PUBLIC_KEY.'));  
@@ -127,4 +166,3 @@ fwrite($temp,$config->get('PRIVATE_KEY'));
        // $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
     }
 }
-

@@ -2,7 +2,7 @@
   "name": "frdl/fusio-adapter-webfantize",
   "description": "Provides connection to the webfantize adapters...",
   "homepage": "http://apps.api.frdl.de",
-  "keywords": ["fusio-adapter", "plesk", "medoo", "migration", "kdbv", "keychain"],
+  "keywords": ["fusio-adapter"],
   "license": "AGPL-3.0",
   "authors": [
     {
@@ -12,7 +12,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+     "php": ">=7.2",
     "fusio/engine": "*",
     "joomla/keychain": "~1.0",
     "frdl/remote-psr4" : "*",
@@ -22,8 +22,8 @@
     "plesk/api-php-lib" :"^1.0.7",
      "sysmoh/nextcloud-api-wrapper" : "^0.1.1",
      "webfan3/php-easy-breaker":"*",
-     "spatie/temporary-directory": "*",
-     "nelexa/zip" : ">=4.0.0"
+	 "spatie/temporary-directory": "*",
+	  "nelexa/zip" : ">=4.0.0"
   },
   "require-dev": {
   

@@ -13,7 +13,7 @@ use Fusio\Adapter\Webfantize\Connection\Database;
 class DatabaseConnectionWrapper
 {
     
-	protected $KeychainRegistry;
+	//protected $KeychainRegistry;
 	protected $Database;
 	protected $configuration;
 	protected static $_handlers = [
@@ -57,26 +57,30 @@ class DatabaseConnectionWrapper
     {
 		$this->Database=$Database;
         $this->configuration = $configuration;
-		$this->KeychainRegistry=$this->Database->getKeychainRegistry();
+		//$this->KeychainRegistry=$this->Database->getKeychainRegistry();
     }
     public static function handlers()
     {
         return self::$_handlers;
     }
-    protected function connect($handler)
+    public function connect($intent)
     {
+			
+		if(!isset($this->connections[$intent])){
+			$handler= $this->intent($intent);
+	
       	$class=$handler['class'];
       	$params=$handler['params'];
 	  
          $passwordKey = $this->Database->getRegKey( 'db.user.','.password', $this->configuration);
 		 $password_config = $this->configuration->get('db.master.password');
 		 if(is_string($password_config) && !empty($password_config) && '' !== $password_config){
-			  $this->KeychainRegistry->set($passwordKey, $password_config);
+			  $this->Database->getKeychainRegistry()->set($passwordKey, $password_config);
 			  $this->configuration->set('db.master.password', null);
 		 }
 		
-		$password = $this->KeychainRegistry->has($passwordKey)			
-		                 ? $this->KeychainRegistry->get($passwordKey) 
+		$password = $this->Database->getKeychainRegistry()->exists($passwordKey)			
+		                 ? $this->Database->getKeychainRegistry()->get($passwordKey) 
 			             : $password_config;
 		
 		$config =[];
@@ -85,19 +89,31 @@ class DatabaseConnectionWrapper
 		}
 		$config[$params['db.master.password']]=$password;
 		
-		$database =new $class($config);
-        return $database;
+		$this->connections[$intent] =new $class($config);
+			
+	  }
+        return $this->connections[$intent];
     }
 
-    public function __get($handler = 'api'){
-		if(!isset(self::$_handlers[$handler])){
-			throw new \Exception('Invalid connection handler in '.__CLASS__);
+    public function intent($intent){
+		
+		if(''===$intent || 'default'===$intent){
+			if(!empty($this->configuration->get('db.default.handler'))){
+				$intent = $this->configuration->get('db.default.handler');
+			}
 		}
-		if(!isset($this->connections[$handler])){
+		
+		if(!isset(self::$_handlers[$intent])){
+			throw new \Exception('Invalid connection intent '.$handler.' in '.__CLASS__);
+		}
+		/*
+		if(!isset($this->connections[$intent])){
 			$this->connections[$handler] = $this->connect(self::$_handlers[$handler]);
 		}
 		
 		return $this->connections[$handler];
+		*/
+		return self::$_handlers[$intent];
 	}
 
 }
