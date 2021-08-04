@@ -44,7 +44,7 @@ class KeychainRegistryWrapper
 		return call_user_func_array([$this->KeychainRegistry, $name], $parameter);
 	}	
 	
-	public function load():KeychainRegistry{
+	public function load():KeychainRegistryWrapper{
 		$this->KeychainRegistry->loadKeychain($this->configuration->get('datastorage_address'),
 											  $this->configuration->get('phrase_address'), 
 											  $this->configuration->get('pubkey_address'));
@@ -56,7 +56,7 @@ class KeychainRegistryWrapper
 		$this->save();
 	}
 	
-	public function save():KeychainRegistry{
+	public function save():KeychainRegistryWrapper{
 		$this->KeychainRegistry->saveKeychain($this->configuration->get('datastorage_address'),
 											  $this->configuration->get('phrase_address'), 
 											  $this->configuration->get('pubkey_address'));
