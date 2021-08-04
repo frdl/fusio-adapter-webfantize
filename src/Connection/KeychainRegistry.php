@@ -27,6 +27,9 @@ use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Joomla\Keychain\Keychain;
 use Fusio\Engine\Model\Connection;
+
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
+
 /**
  * Gcp
  *
@@ -45,7 +48,7 @@ class KeychainRegistry extends Connection implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Joomla\Keychain\Keychain
      */
-    public function getConnection(ParametersInterface $config) : Keychain
+    public function getConnection(ParametersInterface $config) : KeychainRegistryWrapper
     {
 
         
@@ -112,7 +115,7 @@ class KeychainRegistry extends Connection implements ConnectionInterface
                   file_put_contents( $params['pubkey_address'], $config->get('PUBLIC_KEY'));
 				}
 			   
-	//		  print_r([$params, $config->get('PUBLIC_KEY'), $config->get('PRIVATE_KEY'), $config]); 
+ 
 			   
 			  $keychain->saveKeychain($params['datastorage_address'], 
 									  $params['phrase_address'],
@@ -125,7 +128,7 @@ class KeychainRegistry extends Connection implements ConnectionInterface
                                  $params['pubkey_address']);
         
         
-        return $keychain;
+        return new KeychainRegistryWrapper($keychain, $config);
     }
 
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
@@ -148,21 +151,13 @@ class KeychainRegistry extends Connection implements ConnectionInterface
         
          $builder->add($elementFactory->newInput('phrase_address', 'Phrase-File', 'Where to store the storage access secret'));
          $builder->add($elementFactory->newInput('pubkey_address', 'PublicKey-File', 'Where to store the PublicKey'));
-    //     $builder->add($elementFactory->newInput('keychain.privkey.address', 'PrivateKey-File', 'Where to load the '));
+ 
          $builder->add($elementFactory->newInput('keyid', 'Key-ID', 'Identifier of the private key'));
-     //   $isCreated = false !== file_get_contents($params['keychain.datastorage.address']);
-      //  if (!$isCreated) {
+ 
           $builder->add($elementFactory->newInput('key_secret', 'Private-Key Password', 'The Password of the Private-Key'));
         
     $builder->add($elementFactory->newTextArea('PRIVATE_KEY', 'PRIVATE_KEY', 'text', 'The contents of the PRIVATE_KEY.'));    
     $builder->add($elementFactory->newTextArea('PUBLIC_KEY', 'PUBLIC_KEY', 'text', 'The contents of the PUBLIC_KEY.'));  
-        
-        
 
-      //  }
-
-          
-     //   $builder->add($elementFactory->newInput('projectId', 'Project-Id', 'The project ID from the Google Developers Console'));
-       // $builder->add($elementFactory->newTextArea('keyFile', 'Key-File', 'json', 'The contents of the service account credentials .json file retrieved from the Google Developers Console.'));
     }
 }
