@@ -12,9 +12,9 @@ project:
 [Webfan]: https://webfan.de/
 
 ## Connections:
-- KeychainRegistry
+- KeychainRegistry/KeychainRegistryWrapper
 - PleskApiClient
-- Database (Medoo/kdbv)
+- Database/DatabaseWrapper (Medoo/kdbv)
 - FilesystemCache
 - NextcloudApiWrapper
 - CircuitBreakerProtectedConnectionWrapper
