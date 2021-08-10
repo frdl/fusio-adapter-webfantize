@@ -29,7 +29,7 @@ use Medoo\Medoo;
 use kanduganesh\kdbv;
 use Fusio\Adapter\Webfantize\Connection\DatabaseConnectionWrapper as ConnectionWrapper;
 use Fusio\Engine\Model\Connection;
-use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 use Fusio\Engine\ConnectorInterface;
 use Joomla\Keychain\Keychain;
 
@@ -60,12 +60,12 @@ class Database extends Connection implements ConnectionInterface
 		ksort($hash);
 		return strtolower($this->getName()).'.000.'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
-    public function getKeychainRegistry():Keychain
+    public function getKeychainRegistry():KeychainRegistryWrapper
 	{
 		return $this->KeychainRegistry;
 	}
 	
-    protected function setKeychainRegistry(Keychain $KeychainRegistry){
+    protected function setKeychainRegistry(KeychainRegistryWrapper $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 
