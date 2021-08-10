@@ -33,7 +33,7 @@ class KeychainRegistryWrapper
 {
 	protected $KeychainRegistry;
 	protected $configuration;
-    public function __construct(KeychainRegistry $KeychainRegistry, ParametersInterface $configuration)
+    public function __construct(Keychain $KeychainRegistry, ParametersInterface $configuration)
     {
 		$this->KeychainRegistry=$KeychainRegistry;
         $this->configuration = $configuration;
@@ -44,11 +44,11 @@ class KeychainRegistryWrapper
 		return call_user_func_array([$this->KeychainRegistry, $name], $parameter);
 	}	
 	
-	public function load():KeychainRegistryWrapper{
+	public function load():Keychain {
 		$this->KeychainRegistry->loadKeychain($this->configuration->get('datastorage_address'),
 											  $this->configuration->get('phrase_address'), 
 											  $this->configuration->get('pubkey_address'));
-		return $this;
+		return $this->KeychainRegistry;
 	}
 	
 	
@@ -56,11 +56,11 @@ class KeychainRegistryWrapper
 		$this->save();
 	}
 	
-	public function save():KeychainRegistryWrapper{
+	public function save():Keychain {
 		$this->KeychainRegistry->saveKeychain($this->configuration->get('datastorage_address'),
 											  $this->configuration->get('phrase_address'), 
 											  $this->configuration->get('pubkey_address'));
-		return $this;
+		return $this->KeychainRegistry;
 	}	
 
 
