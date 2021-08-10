@@ -27,7 +27,7 @@ use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
-use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 use Joomla\Keychain\Keychain;
 use NextcloudApiWrapper\Wrapper;
 use Doctrine\DBAL;
@@ -36,65 +36,8 @@ class NextcloudApiWrapper //extends Connection
 	implements ConnectionInterface
 {
 		protected $connector;
-/*
-   // protected $connection;
-    protected $wrapper;
-	protected $KeychainRegistry;
-	public function __construct(ConnectorInterface $connector, Plan\Invoice $invoiceService, ProviderFactory $providerFactory, Config $config, Table\Plan\Invoice $invoiceTable, Table\Transaction $transactionTable, EventDispatcherInterface $eventDispatcher)
-    {
-        $this->connector = $connector;
-        $this->invoiceService = $invoiceService;
-        $this->providerFactory = $providerFactory;
-        $this->config = $config;
-        $this->invoiceTable = $invoiceTable;
-        $this->transactionTable = $transactionTable;
-        $this->eventDispatcher = $eventDispatcher;
-    }
-    public function __construct(Wrapper $NextcloudApiWrapper, KeychainRegistry $KeychainRegistry){
-	  $this->wrapper=$NextcloudApiWrapper;
-	  $this->setKeychainRegistry($KeychainRegistry);
-	}
-	
-	
-    public function __get($property)
-    {
-		$name = strtolower($property);
-		
-        switch($name){
-			case 'client' :
-			case 'connection' :
-				 return $this->getWrapper()->getConnection();
-				break;
-			case 'users' :
-				 return $this->getWrapper()->getUsersClient();
-				break;
-			case 'shares' :
-				 return $this->getWrapper()->getSharesClient();
-				break;
-			case 'groups' :
-				 return $this->getWrapper()->getGroupsClient();
-				break;
-			case 'cloudshares' :
-				 return $this->getWrapper()->getFederatedCloudSharesClient();
-				break;
-			case 'apps' :
-				return  $this->getWrapper()->getAppsClient();
-				break;
-			default:
-				 throw new \Exception(sprintf('Undefined member of %s: "%s"', $this->getName(), $property));
-				break;
-		}
-		
-    }	
-	
-	
- 
-    public function getWrapper()
-	{
-		return $this->wrapper;
-	}	
-	*/
-    public function setKeychainRegistry(Keychain $KeychainRegistry){
+
+    public function setKeychainRegistry(KeychainRegistryWrapper $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 	
@@ -114,7 +57,7 @@ class NextcloudApiWrapper //extends Connection
 		return strtolower($this->getName()).'.000.'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-    public function getKeychainRegistry(): Keychain
+    public function getKeychainRegistry(): KeychainRegistryWrapper
 	{
 		return $this->KeychainRegistry;
 	}
