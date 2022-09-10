@@ -6,6 +6,7 @@
      "Fusio\\Adapter\\Webfantize\\Connection\\FilesystemCache",
      "Fusio\\Adapter\\Webfantize\\Connection\\NextcloudApiWrapper",
      "Fusio\\Adapter\\Webfantize\\Connection\\CircuitBreakerProtectedConnectionWrapper",
-     "Fusio\\Adapter\\Webfantize\\Connection\\TemporaryDirectory"
+     "Fusio\\Adapter\\Webfantize\\Connection\\TemporaryDirectory",
+     "Fusio\\Adapter\\Webfantize\\Connection\\LazyEventHandlers"
   ]
 }
