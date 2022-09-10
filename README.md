@@ -17,6 +17,11 @@ project:
 - Database/DatabaseWrapper (Medoo/kdbv)
 - FilesystemCache
 - NextcloudApiWrapper
-- CircuitBreakerProtectedConnectionWrapper
+- CircuitBreakerProtectedConnectionWrapper (todo: rewrite/redesign if usecase!?!)
 - TemporaryDirectory
-- LazyEventHandlers - Directoy for [\Webfan\App\EventModule](https://github.com/frdl/event-module)
+- LazyEventHandlers - Directoy for [`frdl\event-module`](https://github.com/frdl/event-module)
+- Content-addressable storage server [`frdl\cta`](https://github.com/frdl/cta)
+
+### ToDo/Notes
+* It should more INdependent from `KeychainRegistry/KeychainRegistryWrapper`!?!
+* Parameterize the connections with Context (e.g Wrapper->connect($context[AppId, RouteId, UserId, ...]))
