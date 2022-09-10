@@ -19,3 +19,4 @@ project:
 - NextcloudApiWrapper
 - CircuitBreakerProtectedConnectionWrapper
 - TemporaryDirectory
+- LazyEventHandlers - Directoy for [\Webfan\App\EventModule](https://github.com/frdl/event-module)
