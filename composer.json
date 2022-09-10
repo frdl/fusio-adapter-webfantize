@@ -12,20 +12,21 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.2 | >=8.0",
     "fusio/engine": "*",
     "joomla/keychain": "~1.0",
     "frdl/remote-psr4" : "*",
+    "frdl/cta" : "*",
+    "frdl/event-module" : "*",
+    "webfan3/php-easy-breaker":"*",
     "catfan/medoo":"^2.1.0",
     "ganeshkandu/kdbv": "^1.0.7",
     "caseyamcl/configula" : "^4.0.1",
     "plesk/api-php-lib" :"^1.0.7",
     "sysmoh/nextcloud-api-wrapper" : "^0.1.1",
-    "webfan3/php-easy-breaker":"*",
     "spatie/temporary-directory": "*",
     "nelexa/zip" : ">=4.0.0",
-    "brzuchal/filesystem-stream-wrapper" : "*",
-     "frdl/cta" : "*"
+    "brzuchal/filesystem-stream-wrapper" : "*"
   },
   "require-dev": {
   
