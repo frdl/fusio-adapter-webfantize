@@ -21,6 +21,7 @@ project:
 - TemporaryDirectory
 - LazyEventHandlers - Directoy for [`frdl\event-module`](https://github.com/frdl/event-module)
 - Content-addressable storage server [`frdl\cta`](https://github.com/frdl/cta)
+- [DirectoryProtocolMount](https://github.com/frdl/fusio-adapter-webfantize/blob/master/src/Connection/DirectoryProtocolMount.php)
 
 ### ToDo/Notes
 * It should more INdependent from `KeychainRegistry/KeychainRegistryWrapper`!?!
