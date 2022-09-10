@@ -21,7 +21,7 @@ class LazyEventHandlers implements ConnectionInterface
 
     public function getConnection(ParametersInterface $configuration) 
     {
-		     EventModule::setBaseDir($configuration->get('runtime.events.dir'));
+         EventModule::setBaseDir($configuration->get('runtime.events.dir'));
          $EventHandlers = EventModule::action(self::class);
         /* 
         You can use the static method(s) to switch the "action" (events-group) in build/runtime processes...
