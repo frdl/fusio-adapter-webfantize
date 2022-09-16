@@ -12,14 +12,14 @@ use frdl\cta\Server;
 class ContentAddressableStorage implements ConnectionInterface
 {
 	
-    public function getName()
+    public function getName() : string
     {
         return 'ContentAddressableStorage';
     }
 
          
 
-    public function getConnection(ParametersInterface $configuration) 
+    public function getConnection(ParametersInterface $configuration) : mixed
     {
 
          $StorageServer = new Server([
@@ -32,10 +32,10 @@ class ContentAddressableStorage implements ConnectionInterface
 		    return $StorageServer;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) :void
     {
           $builder->add($elementFactory->newInput('cta.options.chunksize',
-												  '80', 'text','Chunksize - IT IS HIGHLY RECOMMENDED THAT YOU SET THIS VALUE TO "80"!!!'));
+												  '80', 'text','Chunksize - IT IS HIGHLY RECOMMENDED THAT YOU SET THIS VALUE TO 80'));
                                
           $builder->add($elementFactory->newInput('cta.storagedir.uris',
 												  'UriStorage Directory', 'text','The directory for the UriStorage (will be created if not exists).'));
