@@ -31,7 +31,7 @@ use Fusio\Engine\Model\Connection;
 class FilesystemCache implements ConnectionInterface
 {
 	
-    public function getName()
+    public function getName() : string
     {
         return 'FilesystemCache';
     }
@@ -41,7 +41,7 @@ class FilesystemCache implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Doctrine\Common\Cache\FilesystemCache
      */
-    public function getConnection(ParametersInterface $configuration) 
+    public function getConnection(ParametersInterface $configuration)  : mixed
     {
         $FilesystemCache = new FSCache($configuration->get('cache.fs.dir'), 
 								   $configuration->get('cache.fs.ext'));
@@ -49,7 +49,7 @@ class FilesystemCache implements ConnectionInterface
 		return $FilesystemCache;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) : void
     {
           $builder->add($elementFactory->newInput('cache.fs.dir',
 												  'Cache-Directory', 'text','The Directory where the cache resists'));
