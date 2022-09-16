@@ -27,14 +27,14 @@ use FilesystemStreamWrapper;
 class DirectoryProtocolMount implements ConnectionInterface
 {
 	
-    public function getName()
+    public function getName() :string
     {
         return 'DirectoryProtocolMount';
     }
 
          
 
-    public function getConnection(ParametersInterface $configuration) 
+    public function getConnection(ParametersInterface $configuration) : mixed
     {
  /** example:
      $pathTemplate = '%1$s/userdata/apps/%2$d/vhosts/%3$s';    //'mount.stream.template'
@@ -73,7 +73,7 @@ class DirectoryProtocolMount implements ConnectionInterface
 		    return $connection;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) : void
     {
           $builder->add($elementFactory->newInput('mount.stream.protocol',
 												  'The-Protocol', 'text','The protocol to register the handler for, e.g. "app" for "app://"'));
