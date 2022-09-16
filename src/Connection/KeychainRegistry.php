@@ -37,9 +37,9 @@ use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
  * @license http://www.gnu.org/licenses/agpl-3.0
  * @link    http://fusio-project.org
  */
-class KeychainRegistry extends Connection implements ConnectionInterface
+class KeychainRegistry extends Connection implements ConnectionInterface 
 {
-    public function getName()
+    public function getName() :string
     {
         return 'KeychainRegistry';
     }
@@ -48,7 +48,7 @@ class KeychainRegistry extends Connection implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \Joomla\Keychain\Keychain
      */
-    public function getConnection(ParametersInterface $config) : KeychainRegistryWrapper
+    public function getConnection(ParametersInterface $config) : mixed
     {
 
         
@@ -131,7 +131,7 @@ class KeychainRegistry extends Connection implements ConnectionInterface
         return new KeychainRegistryWrapper($keychain, $config);
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) : void
     {
                 /*
             'keychain.datastorage.address' => $config->get('keychain.datastorage.address'),
