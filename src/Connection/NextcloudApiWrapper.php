@@ -10,21 +10,23 @@ use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
 use Joomla\Keychain\Keychain;
 use NextcloudApiWrapper\Wrapper;
 use Doctrine\DBAL;
 use Fusio\Engine\ConnectorInterface;
+
 class NextcloudApiWrapper //extends Connection
 	implements ConnectionInterface
 {
-		protected $connector;
+	//	protected $connector;
 
     public function setKeychainRegistry(KeychainRegistryWrapper $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 	
 	 
-	public function getName()
+	public function getName():string
     {
         return 'NextcloudApiWrapper';
     }
@@ -66,7 +68,7 @@ class NextcloudApiWrapper //extends Connection
 		 if(//!$this->KeychainRegistry->has($passwordKey) && 
 			is_string($password_config) && !empty($password_config) && '' !== $password_config){
 			 $this->getKeychainRegistry()->set($passwordKey, $password_config);
-			 $configuration->set('nextcloud.client', null);
+			 $configuration->set('nextcloud.client.password', null);
 		     $password=$password_config;
 		 }elseif($this->getKeychainRegistry()->exists($passwordKey) ){
 		     $password=$this->getKeychainRegistry()->get($passwordKey);
@@ -101,7 +103,7 @@ class NextcloudApiWrapper //extends Connection
 	
    
           $builder->add($elementFactory->newConnection('KeychainRegistry',
-												  \Fusio\Adapter\Webfantize\Connection\KeychainRegistry::class, 
+												  KeychainRegistry::class, 
 												  'The Keychain used to store Nextcloud credentials',
 													 null));
    
