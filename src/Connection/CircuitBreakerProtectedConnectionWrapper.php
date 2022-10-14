@@ -1,23 +1,4 @@
 <?php
-/*
- * Fusio
- * A web-application to create dynamically RESTful APIs
- *
- * Copyright (C) 2015-2018 Christoph Kappestein <christoph.kappestein@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 namespace Fusio\Adapter\Webfantize\Connection;
 
@@ -39,24 +20,24 @@ class CircuitBreakerProtectedConnectionWrapper
 //	extends Connection 
 	implements ConnectionInterface
 {
-	protected $connector;
+	/*
+	//protected $connector;
 	public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
  
-    public function getName()
+
+ */
+
+    public function getName():string
     {
         return 'CircuitBreakerProtectedConnectionWrapper';
     }
 
 
- 
-    /**
-     * @param \Fusio\Engine\ParametersInterface $config
-     * @return \Fusio\Adapter\Webfantize\Connection\CircuitBreakerConnection
-     */
-    public function getConnection(ParametersInterface $configuration) 
+
+    public function getConnection(ParametersInterface $configuration) :mixed
     { 
 		$FilesystemCache = $this->connector->getConnection($configuration->get('FilesystemCache'));
 		$Connection = $this->connector->getConnection($configuration->get('connection'));
@@ -70,7 +51,7 @@ class CircuitBreakerProtectedConnectionWrapper
 		return $connection;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory):void
     {
 
 	/*
