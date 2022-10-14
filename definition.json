@@ -6,6 +6,7 @@
      "Fusio\\Adapter\\Webfantize\\Connection\\KeychainRegistry",
      "Fusio\\Adapter\\Webfantize\\Connection\\PleskApiClient",
      "Fusio\\Adapter\\Webfantize\\Connection\\ContentAddressableStorage",
-     "Fusio\\Adapter\\Webfantize\\Connection\\DirectoryProtocolMount"
+     "Fusio\\Adapter\\Webfantize\\Connection\\DirectoryProtocolMount",
+     "Fusio\\Adapter\\Webfantize\\Connection\\Database"
   ]
 }
