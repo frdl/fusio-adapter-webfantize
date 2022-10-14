@@ -11,6 +11,7 @@ use Fusio\Engine\Model\Connection;
 
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 
+
 class KeychainRegistry /* extends Connection  */ implements ConnectionInterface 
 {
     public function getName() :string
