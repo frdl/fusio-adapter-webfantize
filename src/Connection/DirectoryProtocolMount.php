@@ -27,14 +27,14 @@ use FilesystemStreamWrapper;
 class DirectoryProtocolMount implements ConnectionInterface
 {
 	
-    public function getName() :string
+    public function getName() : string
     {
         return 'DirectoryProtocolMount';
     }
 
          
 
-    public function getConnection(ParametersInterface $configuration) : mixed
+    public function getConnection(ParametersInterface $configuration)  : mixed
     {
  /** example:
      $pathTemplate = '%1$s/userdata/apps/%2$d/vhosts/%3$s';    //'mount.stream.template'
@@ -48,7 +48,7 @@ class DirectoryProtocolMount implements ConnectionInterface
         $directory = $configuration->get('mount.stream.directory');
         $template = $configuration->get('mount.stream.template');
         
-        $mount = function() use($protocol, $directory, $template){
+        $mount =( function() use($protocol, $directory, $template){
                $params = func_get_args();
                
                $path = '';
@@ -64,7 +64,7 @@ class DirectoryProtocolMount implements ConnectionInterface
               FilesystemStreamWrapper::register($protocol, $path);
                
              return $path;
-        };
+        });
         $connection = new \stdclass;
         $connection->mount = $mount;
         $connection->protocol = $protocol;
@@ -82,6 +82,7 @@ class DirectoryProtocolMount implements ConnectionInterface
 												  'The-Target-Directory', 'text','The directory to register the handler for.'));    
                           
           $builder->add($elementFactory->newInput('mount.path.template',
-												  'The-Path-Generator-Template', 'text','The-Path-Generator-Template.Example: $pathTemplate = \'%1$s/userdata/apps/%2$d/vhosts/%3$s\'; $rootPath = $connection->mount($baseDir, $appId, $host);')); 
+												  'The-Path-Generator-Template', 'text',
+'The-Path-Generator-Template.Example: $pathTemplate = \'%1$s/userdata/apps/%2$d/vhosts/%3$s\'; $rootPath = $connection->mount($baseDir,$appId, $host);')); 
     }
 }
