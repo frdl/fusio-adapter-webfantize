@@ -13,16 +13,16 @@ use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
 use Fusio\Engine\ConnectorInterface;
 use Joomla\Keychain\KeychainRegistryWrapper;
 
-class PleskApiClient extends Connection implements ConnectionInterface
+class PleskApiClient /*extends Connection */implements ConnectionInterface
 {
 
     protected $connector;
 	protected $KeychainRegistry;
-		
+		/*
 	public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
-    }
+    } */
     public function getName()
     {
         return 'PleskApiClient';
@@ -50,7 +50,7 @@ class PleskApiClient extends Connection implements ConnectionInterface
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \PleskX\Api\Client
      */
-    public function getConnection(ParametersInterface $configuration) : \PleskX\Api\Client
+    public function getConnection(ParametersInterface $configuration) : mixed
     { 
       //  $this->configuration=$configuration;
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
@@ -103,7 +103,7 @@ class PleskApiClient extends Connection implements ConnectionInterface
 		return $connection;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) : void
     {
 
 	
