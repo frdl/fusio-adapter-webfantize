@@ -1,23 +1,4 @@
 <?php
-/*
- * Fusio
- * A web-application to create dynamically RESTful APIs
- *
- * Copyright (C) 2015-2018 Christoph Kappestein <christoph.kappestein@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 namespace Fusio\Adapter\Webfantize\Connection;
 
@@ -29,23 +10,24 @@ use Medoo\Medoo;
 use kanduganesh\kdbv;
 use Fusio\Adapter\Webfantize\Connection\DatabaseConnectionWrapper as ConnectionWrapper;
 use Fusio\Engine\Model\Connection;
-use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 use Fusio\Engine\ConnectorInterface;
 use Joomla\Keychain\Keychain;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 
-
-class Database extends Connection implements ConnectionInterface
+class Database /* extends Connection */ implements ConnectionInterface
 {
 
 	protected $KeychainRegistry;
     protected $Wrapper;
+	/* 
 	protected $connector;
 	public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
-	
-    public function getName()
+	 */
+    public function getName() : string
     {
         return 'Database';
     }
@@ -69,7 +51,7 @@ class Database extends Connection implements ConnectionInterface
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
 
-    public function getConnection(ParametersInterface $configuration)
+    public function getConnection(ParametersInterface $configuration) :mixed
     { 
  
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
@@ -79,7 +61,7 @@ class Database extends Connection implements ConnectionInterface
 		return $this->Wrapper;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) : void
     {
 
 		 $builder->add($elementFactory->newSelect('db.default.handler', 'Default Handler', array_keys(ConnectionWrapper::handlers()), 'Default Handler Type (Intent)'));
@@ -114,7 +96,7 @@ class Database extends Connection implements ConnectionInterface
    
 
           $builder->add($elementFactory->newConnection('KeychainRegistry',
-												  \Fusio\Adapter\Webfantize\Connection\KeychainRegistry::class, 
+												  KeychainRegistry::class, 
 												  'The Keychain used to store database credentials',
 												//	  array_keys($this->connector->getAll())
 													  null
