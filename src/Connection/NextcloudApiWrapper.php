@@ -1,23 +1,5 @@
 <?php
-/*
- * Fusio
- * A web-application to create dynamically RESTful APIs
- *
- * Copyright (C) 2015-2018 Christoph Kappestein <christoph.kappestein@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+
 
 namespace Fusio\Adapter\Webfantize\Connection;
 
@@ -62,18 +44,18 @@ class NextcloudApiWrapper //extends Connection
 		return $this->KeychainRegistry;
 	}
 	
-	
+ /**	
 	public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
 	
 	
-    /**
+   
      * @param \Fusio\Engine\ParametersInterface $config
      * @return \NextcloudApiWrapper\Wrapper
      */
-    public function getConnection(ParametersInterface $configuration) 
+    public function getConnection(ParametersInterface $configuration) :mixed
     { 
       //  $this->configuration=$configuration;
         $this->setKeychainRegistry($this->connector->getConnection($configuration->get('KeychainRegistry')));
@@ -102,7 +84,7 @@ class NextcloudApiWrapper //extends Connection
 	  ///  return new self($wrapper, $this->getKeychainRegistry());
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) :void
     {
 
 	
