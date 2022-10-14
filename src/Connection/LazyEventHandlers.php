@@ -12,14 +12,14 @@ use Webfan\App\EventModule;
 class LazyEventHandlers implements ConnectionInterface
 {
 	
-    public function getName()
+    public function getName():string
     {
         return 'LazyEventHandlers';
     }
 
          
 
-    public function getConnection(ParametersInterface $configuration) 
+    public function getConnection(ParametersInterface $configuration) :mixed
     {
          EventModule::setBaseDir($configuration->get('runtime.events.dir'));
          $EventHandlers = EventModule::action(self::class);
@@ -33,7 +33,7 @@ class LazyEventHandlers implements ConnectionInterface
 		    return $EventHandlers;
     }
 
-    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory)
+    public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory):void
     {
           $builder->add($elementFactory->newInput('runtime.events.dir',
 												  'Runtime-Compiled-Events-Directory', 'text','The Directory to save and load the compiled lazy eventhandlers.'));
