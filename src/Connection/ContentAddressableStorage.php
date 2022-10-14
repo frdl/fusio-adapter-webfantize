@@ -22,8 +22,11 @@ class ContentAddressableStorage implements ConnectionInterface
     public function getConnection(ParametersInterface $configuration) : mixed
     {
 
+		// max(80, intval(''!==$configuration->get('cta.options.chunksize') ? $configuration->get('cta.options.chunksize') : 80)));
+		 $chunksize  = ''!==trim($configuration->get('cta.options.chunksize')) ? intval($configuration->get('cta.options.chunksize') ) : 80;
+		
          $StorageServer = new Server([
-             'chunksize' => intval($configuration->get('cta.options.chunksize')),
+             'chunksize' => $chunksize,
              Server::URIS_DIR => $configuration->get('cta.storagedir.uris'),
              Server::CHUNKS_DIR => $configuration->get('cta.storagedir.chunks'),
              Server::FILES_DIR => $configuration->get('cta.storagedir.files'),             
@@ -35,7 +38,7 @@ class ContentAddressableStorage implements ConnectionInterface
     public function configure(BuilderInterface $builder, ElementFactoryInterface $elementFactory) :void
     {
           $builder->add($elementFactory->newInput('cta.options.chunksize',
-												  '80', 'text','Chunksize - IT IS HIGHLY RECOMMENDED THAT YOU SET THIS VALUE TO 80'));
+												  'Chunksize', 'integer','Chunksize - IT IS HIGHLY RECOMMENDED THAT YOU SET THIS VALUE TO 80'));
                                
           $builder->add($elementFactory->newInput('cta.storagedir.uris',
 												  'UriStorage Directory', 'text','The directory for the UriStorage (will be created if not exists).'));
