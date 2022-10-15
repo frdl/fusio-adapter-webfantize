@@ -20,15 +20,15 @@ class CircuitBreakerProtectedConnectionWrapper
 //	extends Connection 
 	implements ConnectionInterface
 {
-	/*
-	//protected $connector;
-	public function __construct(ConnectorInterface $connector)
+	 protected $connector;
+	
+     public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
  
 
- */
+ 
 
     public function getName():string
     {
