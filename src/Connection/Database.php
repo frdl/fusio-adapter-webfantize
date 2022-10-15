@@ -20,13 +20,14 @@ class Database /* extends Connection */ implements ConnectionInterface
 
 	protected $KeychainRegistry;
     protected $Wrapper;
-	/* 
-	protected $connector;
-	public function __construct(ConnectorInterface $connector)
+
+     protected $connector;
+	
+    public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
-	 */
+		 
     public function getName() : string
     {
         return 'Database';
