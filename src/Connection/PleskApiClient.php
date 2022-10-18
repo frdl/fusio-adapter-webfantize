@@ -10,8 +10,9 @@ use Fusio\Engine\ParametersInterface;
 use Fusio\Engine\Model\Connection;
 use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
+use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 use Fusio\Engine\ConnectorInterface;
-use Joomla\Keychain\KeychainRegistryWrapper;
+use Joomla\Keychain\KeychainRegistry;
 
 class PleskApiClient /*extends Connection */implements ConnectionInterface
 {
@@ -38,12 +39,12 @@ class PleskApiClient /*extends Connection */implements ConnectionInterface
 		return strtolower($this->getName()).'.000'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-    public function getKeychainRegistry():KeychainRegistryWrapper
+    public function getKeychainRegistry():KeychainRegistry
 	{
 		return $this->KeychainRegistry;
 	}
 	
-    protected function setKeychainRegistry(KeychainRegistryWrapper $KeychainRegistry){
+    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
     /**
