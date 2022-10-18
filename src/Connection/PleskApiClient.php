@@ -18,11 +18,11 @@ class PleskApiClient /*extends Connection */implements ConnectionInterface
 
     protected $connector;
     protected $KeychainRegistry;
-		/*
-	public function __construct(ConnectorInterface $connector)
+		
+   public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
-    } */
+    }/* */
     public function getName() : string
     {
         return 'PleskApiClient';
