@@ -12,7 +12,7 @@ use PleskX\Api\Client;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistry;
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
 use Fusio\Engine\ConnectorInterface;
-use Joomla\Keychain\KeychainRegistry;
+use Joomla\Keychain\Keychain;
 
 class PleskApiClient /*extends Connection */implements ConnectionInterface
 {
@@ -39,12 +39,12 @@ class PleskApiClient /*extends Connection */implements ConnectionInterface
 		return strtolower($this->getName()).'.000'.$prefix.sha1(json_encode($hash)).$suffix;
 	}
 
-    public function getKeychainRegistry():KeychainRegistry
+    public function getKeychainRegistry():Keychain
 	{
 		return $this->KeychainRegistry;
 	}
 	
-    protected function setKeychainRegistry(KeychainRegistry $KeychainRegistry){
+    protected function setKeychainRegistry(Keychain $KeychainRegistry){
 	  $this->KeychainRegistry = $KeychainRegistry;
 	}
     /**
