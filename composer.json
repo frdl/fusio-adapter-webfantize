@@ -31,6 +31,7 @@
   
   },
   "autoload": {
+    "classmap":["src-keychain/"],
     "psr-4": {
       "Fusio\\Adapter\\Webfantize\\": "src/"
     }
