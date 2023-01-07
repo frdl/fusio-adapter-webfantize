@@ -6,7 +6,8 @@ use Fusio\Engine\ConnectionInterface;
 use Fusio\Engine\Form\BuilderInterface;
 use Fusio\Engine\Form\ElementFactoryInterface;
 use Fusio\Engine\ParametersInterface;
-use Joomla\Keychain\Keychain;
+#use Joomla\Keychain\Keychain;
+use Webfan\KeychainOld as Keychain;
 use Fusio\Engine\Model\Connection;
 
 use Fusio\Adapter\Webfantize\Connection\KeychainRegistryWrapper;
